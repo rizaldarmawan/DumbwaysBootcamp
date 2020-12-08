@@ -21,34 +21,34 @@
 
 5. Setting Storage dengan urutan dibawah, agar tak usah setting lagi setelah selesai install
 
-![7](assets/08.PNG)
+![5](assets/08.PNG)
 
 6. klik install ubuntu server dan ikuti langkah selanjutnya hingga sampai tahap storage configuration
 
-![9](assets/09.PNG)
-![9](assets/10.PNG)
-![9](assets/11.PNG)
-![9](assets/12.PNG)
-![9](assets/13.PNG)
-![9](../assets/14.PNG)
+![6](assets/09.PNG)
+![6](assets/10.PNG)
+![6](assets/11.PNG)
+![6](assets/12.PNG)
+![6](assets/13.PNG)
+![6](../assets/14.PNG)
 
 7. untuk konfigurasi storage digunakan 1GB untuk swap dan 59GB untuk root
 
-![15](assets/15.PNG)
-![15](assets/16.PNG)
-![15](assets/17.PNG)
+![7](assets/15.PNG)
+![7](assets/16.PNG)
+![7](assets/17.PNG)
 
 8. klik done terus sampai tahap menentukan nama dan user server dan install openssh
 
-![17](assets/18.PNG)
-![17](assets/19.PNG)
-![17](assets/20.PNG)
+![8](assets/18.PNG)
+![8](assets/19.PNG)
+![8](assets/20.PNG)
 
 9. tunggu sampai instalasi selesai, kemudian restart vm
 
-![17](assets/21.PNG)
-![17](assets/22.PNG)
+![9](assets/21.PNG)
+![9](assets/22.PNG)
 
 10. Selesai
 
-![17](assets/23.PNG)
+![10](assets/23.PNG)
