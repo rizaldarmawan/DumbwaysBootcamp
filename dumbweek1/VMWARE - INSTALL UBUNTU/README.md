@@ -17,7 +17,7 @@
 
 4. Menambahkan file iso kedalam disk virtual untuk nantinya di install 
 
-![4](assets/07.png)
+![4](assets/07.PNG)
 
 5. Setting Storage dengan urutan dibawah, agar tak usah setting lagi setelah selesai install
 
