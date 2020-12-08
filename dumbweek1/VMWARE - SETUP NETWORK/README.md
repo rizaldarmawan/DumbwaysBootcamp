@@ -1,6 +1,6 @@
 # KONFIGURASI VM AGAR DAPAT TERHUBUNG KE JARINGAN INTERNET
 
-1. ubah adapter dari NAT ke Bridged Adapter kemudian pilih hardware komputer lokal yang terhubung ke internet (dalam kasus saya wlp2s0)
+1. ubah adapter dari NAT ke Bridged Adapter kemudian pilih hardware komputer lokal yang terhubung ke internet
 
 ![1](assets/01.PNG)
 
