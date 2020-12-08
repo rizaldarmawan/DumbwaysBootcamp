@@ -12,8 +12,8 @@
 
 ![3](assets/03.png)
 ![3](assets/04.png)
-![3](assets/05.png)
-![3](assets/06.png)
+![3](assets/07.png)
+![3](assets/07.png)
 
 4. Menambahkan file iso kedalam disk virtual untuk nantinya di install 
 
