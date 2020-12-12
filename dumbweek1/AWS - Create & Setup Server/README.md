@@ -1,69 +1,122 @@
-# SERVER FOR REVERSE PROXY
+# SERVER FOR REVERSE PROXY (Public)
 
 - Memilih OS yang akan digunakan untuk server, dalam hal ini Ubuntu server 18.04
 
 ![text](assets/01.PNG)
 
-- Memilih spesifikasi server, tidak perlu terlalu besar karena hanya akan digunakan untuk mendeploy aplikasi sederhana
+- Pilih spesifikasi server
 
 ![text](assets/02.PNG)
 
-- Konfigurasi koneksi yang akan digunakan oleh server, pastikan memilih opsi **Disable** pada `Auto-assign Public IP` agar ip menjadi static dan tidak akan berubah - ubah setelah server di restart
+- Pada configure instance details, matikan auto-assign ip
 
 ![text](assets/03.PNG)
 
-- Memilih storage yang akan digunakan, disini yang saya ganti hanya bagian `Size` dari default 8GB menjadi 10GB.
+- Ubah ukuran default dari 8GB ke 10GB
 
 ![text](assets/04.PNG)
 
-- Configurasi security group agar user hanya bisa mengakses beberapa port yang sudah di sediakan, dalam hal ini yang dibutuhkan adalah: 
-
-	- SSH   : agar server bisa diakses lewat komputer lokal 
-	- HTTP  : agar website bisa diakses public
-	- HTTPS : agar website bisa dipasang SSL 
+- Pada configure security group tambahkan seperti gambar berikut
 
 ![text](assets/05.PNG)
 
-- Buat key pair baru yang nantinya digunakan untuk login ke server menggunakan SSH
+- Lalu review dan launch server, jangan lupa keypairnya karena akan dipakai untuk login
 
 ![text](assets/06.PNG)
 
-- Setelah proses instalasi server selesai, server sebelumnya tidak memiliki public ip, jadi harus ditambahkan Elastic IP terlebih dahulu agar server bisa diakses dari komputer lokal
+- Setelah itu allocate elastic ip agar ip publicnya statis
 
 ![text](assets/07.PNG)
 
-- Tambahkan Elastic Ip yang sudah didapat ke server public
+- Lalu Associate ipnya dengan instance
+
 ![text](assets/08.PNG)
 ![text](assets/09.PNG)
 
----
+# SERVER FOR APPLICATION (Private)
 
-# SERVER FOR APPLICATION
-
-Untuk konfigurasi server Private cara konfigurasinya kurang lebih sama, hanya pada `Configure Security Group` cukup menggunakan All trafic, kemudian Source diganti Ip Private milik Server Public. Server ini juga tidak memerlukan Elastic IP.
+- Untuk setingannya sama dengan sebelumnya, namun dibedakan pada configure security group, dan tidak diberi elastic ip
 
 ![text](assets/10.PNG)
 
-Pada gambar diatas sementara saya masukan Ip dari komputer yang saya gunakan untuk menambahkan user baru agar tidak perlu menggunakan key-pair saat login dari server public.
+# SETTING USER, SSH, DAN HOSTNAME SERVER PUBLIC
 
----
-# SSH KE SERVER 
-
-Cara berikut saya lakukan pada kedua server untuk menghilangkan key-pair saat login:
-
-- Login dari terminal lokal menggunakan perintah `ssh -1 key-pair ubuntu@ip-public` 
-
-![text](assets/11.PNG)
-
-- Tambahkan user baru dengan perintah `adduser nama-user` kemudian beri akses sudo menggunakan `usermod -aG sudo nama-user`
+- SSH Server Public dengan perintah `ssh -i keypair.pem ubuntu@ippublic`
 
 ![text](assets/12.PNG)
+
+- Tambahkan user dengan perintah `sudo adduser namauser`, lalu isi password sesuai keinginan
+
 ![text](assets/13.PNG)
 
-- Edit file yang ada dalam `/etc/ssh/sshd_config` dan ganti `PasswordAuthentication` dari No ke Yes 
+- Beri akses sudo untuk user baru tersebut dengan perintah `sudo usermod -G sudo namauser`
 
 ![text](assets/14.PNG)
 
--Restart sshd dan coba login menggunakan user baru
+- Ubah hostname dengan mengedit `/etc/hosts` dan `/etc/hostname` dengan hostname yang diinginkan lalu restart server dan remote lagi
 
 ![text](assets/15.PNG)
+
+- Edit file `/etc/ssh/sshd_config` lalu rubah pada bagian `PasswordAuthentication no` menjadi `PasswordAuthentication yes`
+
+![text](assets/16.PNG)
+
+- Restart service sshd dan cek servicenya, lalu coba remote kembali dengan `ssh namauser@publicip`
+
+![text](assets/17.PNG)
+![text](assets/18.PNG)
+
+# SETTING USER, SSH, DAN HOSTNAME SERVER PRIVATE
+
+- Pertama remote terlebih dahulu server public, baru setelah itu kita remote server private, sisanya sama dengan setting server public
+
+![text](assets/19.PNG)
+![text](assets/20.PNG)
+
+# SETTING VPC
+
+- Karena saya menggunakan VPC Default, saya hanya akan memberi nama subnet pada server private menjadi private dan public
+menjadi public
+
+![text](assets/31.PNG)
+
+# SETTING NAT INSTANCE UNTUK SERVER PRIVATE
+
+- Agar server private kita aman, kita tidak akan memberinya public ip yang dapat diakses langsung oleh internet, tetapi kita akan mengaksesnya lewat server public. tetapi, dengan ini server private kita tidak bisa mengakses internet, oleh karena itu kita akan setting nat instance agar private server dapat mengakses internet.
+
+- Pertama kita bikin Instance baru, pilih AMI seperti gambar berikut
+
+![text](assets/21.PNG)
+
+- Pilih saja spesifikasi yang ringan
+
+![text](assets/22.PNG)
+
+- Disini Pilih Network dengan VPC yang diinginkan, pada subnet pilih yang public, dan nyalakan auto assign ip
+
+![text](assets/23.PNG)
+
+- Disini set dengan type all traffic, dan source ip dari network/subnet server private
+
+![text](assets/24.PNG)
+
+- Kita pindah ke list instance di aws, lalu pilih instance nat tadi dan klik action > networking > change source/destination check, dan ceklis stop
+
+![text](assets/25.PNG)
+![text](assets/26.PNG)
+
+- Setelah itu kita bikin route table baru untuk server private
+
+![text](assets/27.PNG)
+
+- Lalu edit routenya dan tambahkan Nat instancenya
+
+![text](assets/28.PNG)
+
+- Lalu associate route table tadi dengan subnet private
+
+![text](assets/29.PNG)
+
+- Setelah itu cek koneksi private server
+
+![text](assets/30.PNG)
