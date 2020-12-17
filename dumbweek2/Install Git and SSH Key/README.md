@@ -27,3 +27,5 @@
 - Coba push file baru untuk coba apakah berhasil
 
 ![text](assets/06.PNG)
+
+- Untuk Server Frontend juga melakukan hal yang sama
