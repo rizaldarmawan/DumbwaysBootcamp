@@ -2,7 +2,8 @@
 
 
 1. [Minggu Pertama](dumbweek1)
-1. [Minggu Kedua](dumbweek2)
-1. [Minggu Ketiga](dumbweek3)
-1. [Minggu Keempat](dumbweek4)
+2. [Minggu Kedua](dumbweek2)
+3. [Minggu Ketiga](dumbweek3)
+4. [Minggu Keempat](dumbweek4)
+5. [Final Task](finaltask)
 
